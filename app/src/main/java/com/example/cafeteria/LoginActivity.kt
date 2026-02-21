@@ -12,12 +12,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        // Botó Login
         findViewById<Button>(R.id.btnLogin).setOnClickListener {
+            // Obrir HomeActivity
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
 
-        findViewById<Button>(R.id.tvRegister).setOnClickListener {
+        // Text Registrar (TextView)
+        findViewById<TextView>(R.id.tvRegister).setOnClickListener {
             startActivity(Intent(this, RegistreActivity::class.java))
         }
     }

@@ -14,11 +14,14 @@ class SplashActivity : AppCompatActivity() {
 
         // Thread con sleep
         Thread {
-            try { Thread.sleep(2000) } catch (e: InterruptedException) { /* ignored */ }
-            runOnUiThread {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+            try {
+                Thread.sleep(2000)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
             }
+            // Lanzar LoginActivity
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish() // cerrar SplashActivity
         }.start()
     }
 }
