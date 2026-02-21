@@ -7,13 +7,13 @@
 
     <!-- Contenedor de los fragments -->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainer"
+        android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         app:navGraph="@navigation/nav_graph"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"/>
+
 
     <!-- BottomNavigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

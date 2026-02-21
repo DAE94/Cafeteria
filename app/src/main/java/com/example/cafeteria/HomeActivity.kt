@@ -13,10 +13,11 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val navController = navHostFragment!!.findNavController()
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setupWithNavController(navController)
     }
+
 }

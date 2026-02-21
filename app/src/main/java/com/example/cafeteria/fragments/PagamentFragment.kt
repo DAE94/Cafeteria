@@ -25,17 +25,24 @@ class PagamentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_pagament, container, false)
+
         recyclerView = view.findViewById(R.id.recyclerCart)
         totalText = view.findViewById(R.id.tvTotal)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = CartAdapter(sharedViewModel)
         recyclerView.adapter = adapter
 
-//        sharedViewModel.cartTotal.observe(viewLifecycleOwner) { total ->
-//            totalText.text = "Total: €$total"
-//        }
+        // Observa los items del carrito
         sharedViewModel.cartItems.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list.toList()) // usamos toList() para enviar una copia
+            adapter.submitList(list)
+            // Actualiza el total
+            totalText.text = "Total: €${sharedViewModel.cartTotal.value ?: 0.0}"
+        }
+
+        // Observa los cambios en el total
+        sharedViewModel.cartTotal.observe(viewLifecycleOwner) { total ->
+            totalText.text = "Total: €${"%.2f".format(total)}"
         }
 
         return view

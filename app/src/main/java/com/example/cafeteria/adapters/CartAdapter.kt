@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cafeteria.R
 import com.example.cafeteria.models.Product
@@ -42,6 +41,8 @@ class CartAdapter(
             sharedViewModel.removeFromCart(product)
         }
     }
+
+
 
     override fun getItemCount(): Int = cartItems.size
 }

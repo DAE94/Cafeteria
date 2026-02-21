@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    TODO: Afegir i canviar els drawables-->
     <item
         android:id="@+id/menjarsFragment"
         android:title="Menjars"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/ic_menjars"/>
     <item
         android:id="@+id/begudesFragment"
         android:title="Begudes"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/ic_begudes"/>
     <item
         android:id="@+id/postresFragment"
         android:title="Postres"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/ic_postres"/>
     <item
         android:id="@+id/pagamentFragment"
         android:title="Pagament"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/ic_carro"/>
 </menu>
