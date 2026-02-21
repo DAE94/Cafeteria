@@ -12,7 +12,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Thread con sleep (como pediste). No es lo ideal en producción, pero funciona.
+        // Thread con sleep
         Thread {
             try { Thread.sleep(2000) } catch (e: InterruptedException) { /* ignored */ }
             runOnUiThread {

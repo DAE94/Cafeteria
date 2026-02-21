@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
+import android.widget.TextView
+
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        findViewById<Button>(R.id.btnRegister).setOnClickListener {
+        findViewById<Button>(R.id.tvRegister).setOnClickListener {
             startActivity(Intent(this, RegistreActivity::class.java))
         }
     }
