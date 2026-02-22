@@ -56,7 +56,7 @@ class CartAdapter(
 
     override fun getItemCount(): Int = cartMap.size
 
-    // ✨ actualizar lista desde el fragment
+    // actualizar lista desde el fragment
     fun submitMap(map: Map<Product, Int>) {
         cartMap = map
         notifyDataSetChanged()
