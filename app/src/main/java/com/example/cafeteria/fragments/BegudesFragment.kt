@@ -29,7 +29,16 @@ class BegudesFragment : Fragment() {
         Product("Vino blanco", 3.00),
         Product("Café", 1.50),
         Product("Té", 1.50),
-        Product("Infusión", 1.50)
+        Product("Infusión", 1.50),
+        Product("Infusión1", 1.50),
+        Product("Infusión2", 1.50),
+        Product("Infusión3", 1.50),
+        Product("Infusión4", 1.50),
+        Product("Infusión5", 1.50),
+        Product("Infusión6", 1.50),
+        Product("Infusión7", 1.50),
+        Product("Infusión8", 1.50),
+        Product("Infusión9", 1.50)
     )
 
     override fun onCreateView(

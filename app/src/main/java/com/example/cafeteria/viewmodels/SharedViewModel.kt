@@ -7,27 +7,43 @@ import com.example.cafeteria.models.Product
 
 class SharedViewModel : ViewModel() {
 
-    private val _cartItems = MutableLiveData<MutableList<Product>>(mutableListOf())
-    val cartItems: LiveData<MutableList<Product>> = _cartItems
+    // 🔹 cantidades reales por producto
+    private val quantities = mutableMapOf<Product, Int>()
+
+    private val _cartItems = MutableLiveData<Map<Product, Int>>(emptyMap())
+    val cartItems: LiveData<Map<Product, Int>> = _cartItems
 
     private val _cartTotal = MutableLiveData(0.0)
     val cartTotal: LiveData<Double> = _cartTotal
 
-    fun addToCart(product: Product) {
-        val list = _cartItems.value ?: mutableListOf()
-        list.add(product)
-        _cartItems.value = list
-        calculateTotal()
+
+    // ➕ sumar 1 unidad
+    fun addOne(product: Product) {
+        val current = quantities[product] ?: 0
+        quantities[product] = current + 1
+        publish()
     }
 
-    fun removeFromCart(product: Product) {
-        val list = _cartItems.value ?: mutableListOf()
-        list.remove(product)
-        _cartItems.value = list
-        calculateTotal()
+    // ➖ restar 1 unidad
+    fun removeOne(product: Product) {
+        val current = quantities[product] ?: 0
+
+        if (current > 1) {
+            quantities[product] = current - 1
+        } else {
+            quantities.remove(product)
+        }
+
+        publish()
     }
 
-    private fun calculateTotal() {
-        _cartTotal.value = _cartItems.value?.sumOf { it.price } ?: 0.0
+    fun getQuantity(product: Product): Int {
+        return quantities[product] ?: 0
+    }
+
+    private fun publish() {
+        _cartItems.value = quantities.toMap()
+        _cartTotal.value =
+            quantities.entries.sumOf { it.key.price * it.value }
     }
 }

@@ -14,10 +14,10 @@ class CartAdapter(
     private val sharedViewModel: SharedViewModel
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
-    private var cartItems: List<Product> = emptyList()
+    private var items: List<Pair<Product, Int>> = emptyList()
 
-    fun submitList(items: List<Product>) {
-        cartItems = items
+    fun submitMap(map: Map<Product, Int>) {
+        items = map.toList()
         notifyDataSetChanged()
     }
 
@@ -34,15 +34,18 @@ class CartAdapter(
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val product = cartItems[position]
-        holder.nameText.text = product.name
-        holder.priceText.text = "€${product.price}"
+
+        val (product, qty) = items[position]
+
+        holder.nameText.text = "${product.name} x$qty"
+        holder.priceText.text = "€${product.price * qty}"
+
         holder.removeButton.setOnClickListener {
-            sharedViewModel.removeFromCart(product)
+            repeat(qty) {
+                sharedViewModel.removeOne(product)
+            }
         }
     }
 
-
-
-    override fun getItemCount(): Int = cartItems.size
+    override fun getItemCount() = items.size
 }
