@@ -10,8 +10,6 @@ import com.example.cafeteria.R
 import com.example.cafeteria.models.Product
 import com.example.cafeteria.viewmodels.SharedViewModel
 
-import java.util.List;
-
 class ProductAdapter(
     private val products: kotlin.collections.List<Product>,
     private val sharedViewModel: SharedViewModel
@@ -20,7 +18,6 @@ class ProductAdapter(
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.tvName)
         val priceText: TextView = view.findViewById(R.id.tvPrice)
-
         val minusBtn: Button = view.findViewById(R.id.btnMinus)
         val plusBtn: Button = view.findViewById(R.id.btnPlus)
         val quantityText: TextView = view.findViewById(R.id.tvQuantity)
@@ -33,25 +30,23 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-
         val product = products[position]
 
         holder.nameText.text = product.name
         holder.priceText.text = "€${product.price}"
 
-        // 🔹 leer SIEMPRE del ViewModel (NO variable local)
-        val qty = sharedViewModel.getQuantity(product)
-
+        // 🔹 leer cantidad del SharedViewModel
+        val qty = sharedViewModel.cartMapLiveData.value?.get(product) ?: 0
         holder.quantityText.text = qty.toString()
         holder.minusBtn.isEnabled = qty > 0
 
         holder.plusBtn.setOnClickListener {
-            sharedViewModel.addOne(product)
+            sharedViewModel.incrementProduct(product)
             notifyItemChanged(position)
         }
 
         holder.minusBtn.setOnClickListener {
-            sharedViewModel.removeOne(product)
+            sharedViewModel.decrementProduct(product)
             notifyItemChanged(position)
         }
     }

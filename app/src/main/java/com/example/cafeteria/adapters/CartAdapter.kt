@@ -14,17 +14,15 @@ class CartAdapter(
     private val sharedViewModel: SharedViewModel
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
-    private var items: List<Pair<Product, Int>> = emptyList()
-
-    fun submitMap(map: Map<Product, Int>) {
-        items = map.toList()
-        notifyDataSetChanged()
-    }
+    private var cartMap = mapOf<Product, Int>()
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.tvName)
         val priceText: TextView = view.findViewById(R.id.tvPrice)
-        val removeButton: Button = view.findViewById(R.id.btnRemove)
+        val minusBtn: Button = view.findViewById(R.id.btnMinus)
+        val plusBtn: Button = view.findViewById(R.id.btnPlus)
+        val quantityText: TextView = view.findViewById(R.id.tvQuantity)
+        val removeBtn: Button = view.findViewById(R.id.btnRemove)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -34,18 +32,33 @@ class CartAdapter(
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+        val product = cartMap.keys.toList()[position]
+        val quantity = cartMap[product] ?: 1
 
-        val (product, qty) = items[position]
+        holder.nameText.text = product.name
+        holder.quantityText.text = quantity.toString()
+        holder.priceText.text = "€%.2f".format(product.price * quantity)
 
-        holder.nameText.text = "${product.name} x$qty"
-        holder.priceText.text = "€${product.price * qty}"
+        holder.minusBtn.isEnabled = quantity > 1
 
-        holder.removeButton.setOnClickListener {
-            repeat(qty) {
-                sharedViewModel.removeOne(product)
-            }
+        holder.plusBtn.setOnClickListener {
+            sharedViewModel.incrementProduct(product)
+        }
+
+        holder.minusBtn.setOnClickListener {
+            sharedViewModel.decrementProduct(product)
+        }
+
+        holder.removeBtn.setOnClickListener {
+            sharedViewModel.removeProduct(product)
         }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount(): Int = cartMap.size
+
+    // ✨ actualizar lista desde el fragment
+    fun submitMap(map: Map<Product, Int>) {
+        cartMap = map
+        notifyDataSetChanged()
+    }
 }

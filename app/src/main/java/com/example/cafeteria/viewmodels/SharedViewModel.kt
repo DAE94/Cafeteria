@@ -7,43 +7,38 @@ import com.example.cafeteria.models.Product
 
 class SharedViewModel : ViewModel() {
 
-    // 🔹 cantidades reales por producto
-    private val quantities = mutableMapOf<Product, Int>()
-
-    private val _cartItems = MutableLiveData<Map<Product, Int>>(emptyMap())
-    val cartItems: LiveData<Map<Product, Int>> = _cartItems
+    private val cartMap = mutableMapOf<Product, Int>()
+    private val _cartMapLiveData = MutableLiveData<Map<Product, Int>>(cartMap.toMap())
+    val cartMapLiveData: LiveData<Map<Product, Int>> = _cartMapLiveData
 
     private val _cartTotal = MutableLiveData(0.0)
     val cartTotal: LiveData<Double> = _cartTotal
 
-
-    // ➕ sumar 1 unidad
-    fun addOne(product: Product) {
-        val current = quantities[product] ?: 0
-        quantities[product] = current + 1
-        publish()
+    fun incrementProduct(product: Product) {
+        val current = cartMap[product] ?: 0
+        cartMap[product] = current + 1
+        _cartMapLiveData.value = cartMap.toMap()
+        calculateTotal()
     }
 
-    // ➖ restar 1 unidad
-    fun removeOne(product: Product) {
-        val current = quantities[product] ?: 0
-
+    fun decrementProduct(product: Product) {
+        val current = cartMap[product] ?: 0
         if (current > 1) {
-            quantities[product] = current - 1
+            cartMap[product] = current - 1
         } else {
-            quantities.remove(product)
+            cartMap.remove(product)
         }
-
-        publish()
+        _cartMapLiveData.value = cartMap.toMap()
+        calculateTotal()
     }
 
-    fun getQuantity(product: Product): Int {
-        return quantities[product] ?: 0
+    fun removeProduct(product: Product) {
+        cartMap.remove(product)
+        _cartMapLiveData.value = cartMap.toMap()
+        calculateTotal()
     }
 
-    private fun publish() {
-        _cartItems.value = quantities.toMap()
-        _cartTotal.value =
-            quantities.entries.sumOf { it.key.price * it.value }
+    private fun calculateTotal() {
+        _cartTotal.value = cartMap.entries.sumOf { it.key.price * it.value }
     }
 }

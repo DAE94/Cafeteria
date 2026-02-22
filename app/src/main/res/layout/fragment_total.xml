@@ -27,7 +27,6 @@
 
         </FrameLayout>
 
-<!--TODO: canviar lògica pq el comptador del badge sigui el total, no el número d'items diferents-->
         <TextView
             android:id="@+id/tvBadge"
             android:layout_width="18dp"

@@ -35,8 +35,9 @@ class TotalFragment : Fragment() {
 
         val badge = view.findViewById<TextView>(R.id.tvBadge)
 
-        sharedViewModel.cartItems.observe(viewLifecycleOwner) { items ->
-            badge.text = items.size.toString()
+        sharedViewModel.cartMapLiveData.observe(viewLifecycleOwner) { cartMap ->
+            val totalItems = cartMap.values.sum() // suma de todas las cantidades
+            badge.text = totalItems.toString()
         }
 
 
@@ -44,7 +45,7 @@ class TotalFragment : Fragment() {
 
             tvTotal.text = "Total: €%.2f".format(total)
 
-            // ✨ Animación suave cuando cambia
+            // Animación suave cuando cambia
             view.animate()
                 .scaleX(1.05f)
                 .scaleY(1.05f)
