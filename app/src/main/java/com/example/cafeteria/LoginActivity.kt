@@ -7,63 +7,45 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginActivity : AppCompatActivity() {
 
-    // 🔹 Usuarios provisionales (email -> contraseña)
-    private val users = mapOf(
-        "usuario1@example.com" to "1234",
-        "david@gmail.com" to "abcd",
-        "test@test.com" to "pass123",
-        "a" to "a"
-    )
-
-
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Botó Login
+        val auth = FirebaseAuth.getInstance()
+
         findViewById<Button>(R.id.btnLogin).setOnClickListener {
 
             val email = findViewById<EditText>(R.id.etEmail).text.toString().trim()
-            val password = findViewById<EditText>(R.id.etPassword).text.toString()
+            val password = findViewById<EditText>(R.id.etPassword).text.toString().trim()
 
-            // Validaciones básicas
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Introduce correo y contraseña", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-//            // Validación de formato
-//            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//                Toast.makeText(this, "Correo no válido", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-
-            // 1) Existe el usuario
-            if (!users.containsKey(email)) {
-                Toast.makeText(this, "Usuario no existente", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // 2) Contraseña correcta
-            val storedPassword = users[email]
-            if (storedPassword != password) {
-                Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // 3) Login OK
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    //Login correcto
+                    val user = auth.currentUser
+                    Toast.makeText(this, "Bienvenido ${user?.email}", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }
+                .addOnFailureListener{
+                    // Error en login
+                    Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
 
-        // Text Registrar (TextView)
-        findViewById<TextView>(R.id.tvRegister).setOnClickListener {
-            startActivity(Intent(this, RegistreActivity::class.java))
-        }
-    }
+
+
+
+
 
 }
