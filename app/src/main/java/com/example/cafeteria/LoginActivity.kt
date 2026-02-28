@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -16,6 +17,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+
+        //Instancia de FireBase Authentication
         val auth = FirebaseAuth.getInstance()
 
         findViewById<Button>(R.id.btnLogin).setOnClickListener {
@@ -36,16 +39,19 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(this, HomeActivity::class.java))
                     finish()
                 }
-                .addOnFailureListener{
+                .addOnFailureListener {
                     // Error en login
-                    Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT)
+                        .show()
                 }
         }
 
+        val tvRegister = findViewById<TextView>(R.id.tvRegister)
 
+        tvRegister.setOnClickListener {
+            startActivity(Intent(this, RegistreActivity::class.java))
+        }
 
-
-
+    }
 
 }

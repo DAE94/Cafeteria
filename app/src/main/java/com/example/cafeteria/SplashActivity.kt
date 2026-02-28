@@ -2,26 +2,43 @@ package com.example.cafeteria
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.airbnb.lottie.LottieAnimationView
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 
 class SplashActivity : AppCompatActivity() {
+
+    // Temps mínim d'animació
+    private val MIN_SPLASH_DURATION = 3000L // 3 segons
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Thread con sleep
-        Thread {
-            try {
-                Thread.sleep(2000)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
+        val animationView = findViewById<LottieAnimationView>(R.id.lottieSplash)
+
+        // Desactivar loop
+        animationView.repeatCount = 0
+
+        val startTime = System.currentTimeMillis()
+
+        // Listener per quan acabi l'animació
+        animationView.addAnimatorListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                val elapsed = System.currentTimeMillis() - startTime
+                val delay = if (elapsed < MIN_SPLASH_DURATION) {
+                    MIN_SPLASH_DURATION - elapsed
+                } else 0L
+
+                // Passar a LoginActivity dresprés del delay
+                Handler(Looper.getMainLooper()).postDelayed({
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    finish()
+                }, delay)
             }
-            // Lanzar LoginActivity
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish() // cerrar SplashActivity
-        }.start()
+        })
     }
 }

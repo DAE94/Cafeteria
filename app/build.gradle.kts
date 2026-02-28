@@ -56,4 +56,6 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.airbnb.android:lottie:6.4.0")
+
 }
