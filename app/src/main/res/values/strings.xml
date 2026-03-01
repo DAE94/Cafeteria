@@ -11,5 +11,10 @@
     <string name="contrasenya">Contrasenya</string>
     <string name="correu_electronic">Correu electrònic</string>
     <string name="app_logo">App Logo</string>
+    <string name="crear_compte">Crear compte</string>
+    <string name="telefon">telèfon</string>
+    <string name="registre">Registre</string>
+    <string name="nom">Nom</string>
+    <string name="cognom">Cognom</string>
 
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Cafeteria.Button" parent="Widget.Material3.Button">
+        <!-- Color de fondo -->
+        <item name="backgroundTint">@color/colorButtonBackground</item>
+        <!-- Color de texto -->
+        <item name="android:textColor">@color/colorButtonText</item>
+    </style>
+</resources>

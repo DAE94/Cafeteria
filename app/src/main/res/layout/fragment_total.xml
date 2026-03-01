@@ -1,17 +1,17 @@
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/bg_bottom_nav"
     app:cardCornerRadius="16dp"
     app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
         <!-- Icono carrito + badge -->
@@ -23,7 +23,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_carro"/>
+                android:src="@drawable/ic_carro" />
 
         </FrameLayout>
 
@@ -45,15 +45,16 @@
             android:layout_weight="1"
             android:paddingStart="12dp"
             android:text="Total: €0.00"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textColor="@color/colorSecondary"/>
 
 
         <Button
             android:id="@+id/btnPay"
-            android:text="Pagar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Pagar" />
 
     </LinearLayout>
 

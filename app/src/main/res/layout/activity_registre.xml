@@ -13,27 +13,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registro"
+            android:text="@string/registre"
             android:textSize="26sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
 
         <EditText
             android:id="@+id/etNom"
-            android:hint="Nombre"
+            android:hint="@string/nom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/etCognom"
-            android:hint="Apellido"
+            android:hint="@string/cognom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>
 
         <EditText
             android:id="@+id/etTelefon"
-            android:hint="Teléfono"
+            android:hint="@string/telefon"
             android:inputType="phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
 
         <EditText
             android:id="@+id/etEmail"
-            android:hint="Correo electrónico"
+            android:hint="@string/correu_electronic"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
 
         <EditText
             android:id="@+id/etPassword"
-            android:hint="Contraseña"
+            android:hint="@string/contrasenya"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
 
         <Button
             android:id="@+id/btnRegister"
-            android:text="Crear cuenta"
+            android:text="@string/crear_compte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>
