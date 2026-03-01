@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menjarsFragment"
-        android:title="Menjars"
-        android:icon="@drawable/ic_menjars"/>
+        android:id="@+id/entrepansFragment"
+        android:title="entrepans"
+        android:icon="@drawable/ic_entrepans"/>
     <item
         android:id="@+id/begudesFragment"
         android:title="Begudes"
         android:icon="@drawable/ic_begudes"/>
     <item
-        android:id="@+id/postresFragment"
-        android:title="Postres"
-        android:icon="@drawable/ic_postres"/>
+        android:id="@+id/reposteriaFragment"
+        android:title="reposteria"
+        android:icon="@drawable/ic_reposteria"/>
     <item
-        android:id="@+id/pagamentFragment"
-        android:title="Pagament"
-        android:icon="@drawable/ic_carro"/>
+        android:id="@+id/comandaFragment"
+        android:title="comanda"
+        android:icon="@drawable/ic_comanda"/>
 </menu>

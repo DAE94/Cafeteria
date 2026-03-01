@@ -30,7 +30,7 @@ class TotalFragment : Fragment() {
         btnPay.setOnClickListener {
             requireActivity()
                 .findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                .selectedItemId = R.id.pagamentFragment
+                .selectedItemId = R.id.comandaFragment
         }
 
         val badge = view.findViewById<TextView>(R.id.tvBadge)
@@ -43,7 +43,7 @@ class TotalFragment : Fragment() {
 
         sharedViewModel.cartTotal.observe(viewLifecycleOwner) { total ->
 
-            tvTotal.text = "Total: €%.2f".format(total)
+            tvTotal.text = "Total: %.2f €".format(total)
 
             // Animación suave cuando cambia
             view.animate()

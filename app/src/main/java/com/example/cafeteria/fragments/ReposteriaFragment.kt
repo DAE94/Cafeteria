@@ -9,14 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cafeteria.models.Product
 import com.example.cafeteria.R
 import com.example.cafeteria.viewmodels.SharedViewModel
 import com.example.cafeteria.adapters.ProductAdapter
-import com.example.cafeteria.models.Product
 import com.example.cafeteria.models.getProductsByCategory
 
 
-class BegudesFragment : Fragment() {
+class ReposteriaFragment : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var adapter: ProductAdapter
@@ -25,10 +25,10 @@ class BegudesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_begudes, container, false)
+        val view = inflater.inflate(R.layout.fragment_reposteria, container, false)
 
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        val recycler = view.findViewById<RecyclerView>(R.id.recyclerBegudes)
+        val recycler = view.findViewById<RecyclerView>(R.id.recyclerReposteria)
         recycler.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ProductAdapter(emptyList(), sharedViewModel)
@@ -37,7 +37,7 @@ class BegudesFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        getProductsByCategory("beguda") { list ->
+        getProductsByCategory("reposteria") { list ->
             adapter.replaceData(list)
         }
 

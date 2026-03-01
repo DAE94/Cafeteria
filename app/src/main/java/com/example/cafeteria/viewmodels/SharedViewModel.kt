@@ -39,6 +39,6 @@ class SharedViewModel : ViewModel() {
     }
 
     private fun calculateTotal() {
-        _cartTotal.value = cartMap.entries.sumOf { it.key.price * it.value }
+        _cartTotal.value = cartMap.entries.sumOf { it.key.preu * it.value }
     }
 }

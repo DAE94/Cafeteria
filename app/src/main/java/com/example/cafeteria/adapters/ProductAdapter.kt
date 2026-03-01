@@ -11,16 +11,21 @@ import com.example.cafeteria.models.Product
 import com.example.cafeteria.viewmodels.SharedViewModel
 
 class ProductAdapter(
-    private val products: kotlin.collections.List<Product>,
+    private var products: List<Product>,
     private val sharedViewModel: SharedViewModel
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.tvName)
         val priceText: TextView = view.findViewById(R.id.tvPrice)
-        val minusBtn: Button = view.findViewById(R.id.btnMinus)
-        val plusBtn: Button = view.findViewById(R.id.btnPlus)
-        val quantityText: TextView = view.findViewById(R.id.tvQuantity)
+        val increaseButton: Button = view.findViewById(R.id.btnPlus)
+        val decreaseButton: Button = view.findViewById(R.id.btnMinus)
+        val removeButton: Button = view.findViewById(R.id.btnRemove)
+    }
+
+    fun replaceData(newProducts: List<Product>) {
+        products = newProducts
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -32,22 +37,18 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
 
-        holder.nameText.text = product.name
-        holder.priceText.text = "€${product.price}"
+        holder.nameText.text = product.nom
+        holder.priceText.text = "€${product.preu}"
 
-        // 🔹 leer cantidad del SharedViewModel
-        val qty = sharedViewModel.cartMapLiveData.value?.get(product) ?: 0
-        holder.quantityText.text = qty.toString()
-        holder.minusBtn.isEnabled = qty > 0
+        val quantity = sharedViewModel.getQuantity(product)
+        holder.quantityText.text = quantity.toString()
 
-        holder.plusBtn.setOnClickListener {
+        holder.increaseButton.setOnClickListener {
             sharedViewModel.incrementProduct(product)
-            notifyItemChanged(position)
         }
 
-        holder.minusBtn.setOnClickListener {
+        holder.decreaseButton.setOnClickListener {
             sharedViewModel.decrementProduct(product)
-            notifyItemChanged(position)
         }
     }
 

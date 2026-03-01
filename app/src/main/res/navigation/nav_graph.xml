@@ -2,13 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/menjarsFragment">
+    app:startDestination="@id/entrepansFragment">
 
     <fragment
-        android:id="@+id/menjarsFragment"
-        android:name="com.example.cafeteria.fragments.MenjarsFragment"
-        android:label="Menjars"
-        tools:layout="@layout/fragment_menjars"/>
+        android:id="@+id/entrepansFragment"
+        android:name="com.example.cafeteria.fragments.EntrepansFragment"
+        android:label="entrepans"
+        tools:layout="@layout/fragment_entrepans"/>
 
     <fragment
         android:id="@+id/begudesFragment"
@@ -17,15 +17,15 @@
         tools:layout="@layout/fragment_begudes"/>
 
     <fragment
-        android:id="@+id/postresFragment"
-        android:name="com.example.cafeteria.fragments.PostresFragment"
-        android:label="Postres"
-        tools:layout="@layout/fragment_postres"/>
+        android:id="@+id/reposteriaFragment"
+        android:name="com.example.cafeteria.fragments.ReposteriaFragment"
+        android:label="reposteria"
+        tools:layout="@layout/fragment_reposteria"/>
 
     <fragment
-        android:id="@+id/pagamentFragment"
-        android:name="com.example.cafeteria.fragments.PagamentFragment"
-        android:label="Pagament"
-        tools:layout="@layout/fragment_pagament"/>
+        android:id="@+id/comandaFragment"
+        android:name="com.example.cafeteria.fragments.ComandaFragment"
+        android:label="comanda"
+        tools:layout="@layout/fragment_comanda"/>
 
 </navigation>

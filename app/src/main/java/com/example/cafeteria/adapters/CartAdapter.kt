@@ -35,9 +35,9 @@ class CartAdapter(
         val product = cartMap.keys.toList()[position]
         val quantity = cartMap[product] ?: 1
 
-        holder.nameText.text = product.name
+        holder.nameText.text = product.nom
         holder.quantityText.text = quantity.toString()
-        holder.priceText.text = "€%.2f".format(product.price * quantity)
+        holder.priceText.text = "€%.2f".format(product.preu * quantity)
 
         holder.minusBtn.isEnabled = quantity > 1
 

@@ -3,13 +3,13 @@
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent"-->
-<!--    tools:context=".MenjarsFragment">-->
+<!--    tools:context=".ReposteriaFragment">-->
 
 <!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
 <!--    <TextView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent"-->
-<!--        android:text="menjar" />-->
+<!--        android:text="reposteria" />-->
 
 <!--</FrameLayout>-->
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerMenjars"
+        android:id="@+id/recyclerReposteria"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"

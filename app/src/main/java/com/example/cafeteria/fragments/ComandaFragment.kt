@@ -13,7 +13,7 @@ import com.example.cafeteria.R
 import com.example.cafeteria.adapters.CartAdapter
 import com.example.cafeteria.viewmodels.SharedViewModel
 
-class PagamentFragment : Fragment() {
+class ComandaFragment : Fragment() {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
@@ -25,8 +25,8 @@ class PagamentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_pagament, container, false)
-        recyclerView = view.findViewById(R.id.recyclerCart)
+        val view = inflater.inflate(R.layout.fragment_comanda, container, false)
+        recyclerView = view.findViewById(R.id.recyclerComanda)
         tvTotal = view.findViewById(R.id.tvTotal)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
