@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.PagamentFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="355dp"
+            android:background="@color/design_default_color_background"
+            android:elevation="6dp"
+            android:orientation="vertical"
+            android:outlineAmbientShadowColor="@color/colorPrimaryVariant"
+            android:padding="24dp">
+
+            <EditText
+                android:id="@+id/etCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/numero_targeta"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/etCardOwner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/titular_targeta"
+                android:inputType="textCapWords"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCard" />
+
+            <EditText
+                android:id="@+id/etExpiry"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:hint="MM/AA"
+                app:layout_constraintBottom_toTopOf="@+id/btnConfirmPay"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCardOwner"
+                app:layout_constraintVertical_bias="0.16" />
+
+            <EditText
+                android:id="@+id/etCvv"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:hint="CVV"
+                android:inputType="numberPassword"
+                app:layout_constraintBottom_toTopOf="@+id/btnConfirmPay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/etExpiry"
+                app:layout_constraintTop_toBottomOf="@+id/etCardOwner"
+                app:layout_constraintVertical_bias="0.16" />
+
+            <Button
+                android:id="@+id/btnConfirmPay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:text="Pagar"
+                app:layout_constraintTop_toBottomOf="@+id/etCardOwner"
+                tools:layout_editor_absoluteX="24dp" />
+
+            <TextView
+                android:id="@+id/tvCancelPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:text="@string/cancela_pagament"
+                android:textColor="#0066CC"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnConfirmPay" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</FrameLayout>

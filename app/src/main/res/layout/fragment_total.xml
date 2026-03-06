@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
-        <!-- Icono carrito + badge -->
+        <!-- Icona carro + badge -->
 
         <FrameLayout
             android:layout_width="wrap_content"

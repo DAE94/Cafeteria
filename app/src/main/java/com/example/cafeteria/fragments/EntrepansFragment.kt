@@ -14,6 +14,7 @@ import com.example.cafeteria.R
 import com.example.cafeteria.adapters.ProductAdapter
 import com.example.cafeteria.models.getProductsByCategory
 import com.example.cafeteria.viewmodels.SharedViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class EntrepansFragment : Fragment() {
@@ -27,23 +28,29 @@ class EntrepansFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_entrepans, container, false)
 
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel = activityViewModels<SharedViewModel>().value
 
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerEntrepans)
         recycler.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ProductAdapter(emptyList(), sharedViewModel)
         recycler.adapter = adapter
-        sharedViewModel.cartItems.observe(viewLifecycleOwner) {
+
+        //Observar el carro -> nomes es notifica al adapter
+        sharedViewModel.cartMapLiveData.observe(viewLifecycleOwner) {
             adapter.notifyDataSetChanged()
         }
 
+        // instancia BBDD per observar stock en temps real (en comptes del GET)
+        FirebaseFirestore.getInstance()
+            .collection("productes")
+            .whereEqualTo("categoria", "entrepa")
+            .addSnapshotListener { snapshot, _ ->
 
-        // Carrega des del Firestore
-        getProductsByCategory("entrepa") { list ->
-//                adapter.notifyDataSetChanged() // opcional si cambias internamente
-            adapter.replaceData(list)
-        }
+                val products = snapshot?.toObjects(Product::class.java) ?: emptyList()
+
+                adapter.replaceData(products)
+            }
 
         return view
     }

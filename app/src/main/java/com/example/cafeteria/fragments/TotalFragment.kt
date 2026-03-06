@@ -26,26 +26,24 @@ class TotalFragment : Fragment() {
 
         val btnPay = view.findViewById<Button>(R.id.btnPay)
 
-
+        //Navega al fragment Pagament
         btnPay.setOnClickListener {
-            requireActivity()
-                .findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                .selectedItemId = R.id.comandaFragment
+            findNavController().navigate(R.id.pagamentFragment)
         }
 
         val badge = view.findViewById<TextView>(R.id.tvBadge)
 
         sharedViewModel.cartMapLiveData.observe(viewLifecycleOwner) { cartMap ->
-            val totalItems = cartMap.values.sum() // suma de todas las cantidades
+            val totalItems = cartMap.values.sumOf{ it.quantity} // suma de todas las cantidades
             badge.text = totalItems.toString()
         }
 
 
         sharedViewModel.cartTotal.observe(viewLifecycleOwner) { total ->
 
-            tvTotal.text = "Total: %.2f €".format(total)
+            tvTotal.text = "Total: %.2f€".format(total)
 
-            // Animación suave cuando cambia
+            // Animació quan canvia
             view.animate()
                 .scaleX(1.05f)
                 .scaleY(1.05f)

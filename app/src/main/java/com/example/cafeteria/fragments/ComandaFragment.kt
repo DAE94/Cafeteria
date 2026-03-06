@@ -1,5 +1,6 @@
 package com.example.cafeteria.fragments
 
+import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cafeteria.R
 import com.example.cafeteria.adapters.CartAdapter
 import com.example.cafeteria.viewmodels.SharedViewModel
+import com.example.cafeteria.models.CartItem
+import com.example.cafeteria.models.Product
 
 class ComandaFragment : Fragment() {
 
@@ -34,8 +37,12 @@ class ComandaFragment : Fragment() {
         recyclerView.adapter = adapter
 
         // observar cambios del carrito
-        sharedViewModel.cartMapLiveData.observe(viewLifecycleOwner) { map ->
+        sharedViewModel.cartMapLiveData.observe(viewLifecycleOwner) { map: Map<String, CartItem> ->
             adapter.submitMap(map)
+        }
+
+        sharedViewModel.cartTotal.observe(viewLifecycleOwner) { total ->
+            tvTotal.text = "Total: %.2f€".format(total)
         }
 
         return view

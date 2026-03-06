@@ -28,4 +28,9 @@
         android:label="comanda"
         tools:layout="@layout/fragment_comanda"/>
 
+    <fragment
+        android:id="@+id/pagamentFragment"
+        android:name="com.example.cafeteria.fragments.PagamentFragment"
+        android:label="Pagament" />
+
 </navigation>

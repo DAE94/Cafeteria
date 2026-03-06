@@ -3,42 +3,75 @@ package com.example.cafeteria.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cafeteria.models.CartItem
 import com.example.cafeteria.models.Product
+
 
 class SharedViewModel : ViewModel() {
 
-    private val cartMap = mutableMapOf<Product, Int>()
-    private val _cartMapLiveData = MutableLiveData<Map<Product, Int>>(cartMap.toMap())
-    val cartMapLiveData: LiveData<Map<Product, Int>> = _cartMapLiveData
+    private val cartMap = mutableMapOf<String, CartItem>()
+
+    private val _cartMapLiveData = MutableLiveData<Map<String, CartItem>>(cartMap.toMap())
+    val cartMapLiveData: LiveData<Map<String, CartItem>> = _cartMapLiveData
 
     private val _cartTotal = MutableLiveData(0.0)
     val cartTotal: LiveData<Double> = _cartTotal
 
-    fun incrementProduct(product: Product) {
-        val current = cartMap[product] ?: 0
-        cartMap[product] = current + 1
-        _cartMapLiveData.value = cartMap.toMap()
-        calculateTotal()
+    // ----------------------
+    // FUNCIONS
+    // ----------------------
+
+    fun addOne(product: Product) {
+        val existing = cartMap[product.id]
+        if (existing != null) {
+            existing.quantity++
+        } else {
+            cartMap[product.id] = CartItem(product, 1)
+        }
+        notifyChanges()
     }
 
-    fun decrementProduct(product: Product) {
-        val current = cartMap[product] ?: 0
-        if (current > 1) {
-            cartMap[product] = current - 1
+    fun removeOne(product: Product) {
+        val existing = cartMap[product.id] ?: return
+        if (existing.quantity > 1) {
+            existing.quantity--
         } else {
-            cartMap.remove(product)
+            cartMap.remove(product.id)
         }
-        _cartMapLiveData.value = cartMap.toMap()
-        calculateTotal()
+        notifyChanges()
     }
 
     fun removeProduct(product: Product) {
-        cartMap.remove(product)
-        _cartMapLiveData.value = cartMap.toMap()
-        calculateTotal()
+        cartMap.remove(product.id)
+        notifyChanges()
     }
 
-    private fun calculateTotal() {
-        _cartTotal.value = cartMap.entries.sumOf { it.key.preu * it.value }
+    fun getCartItems(): List<CartItem> {
+        return cartMap.values.toList()
+    }
+
+    fun getCartTotal(): Double {
+        return cartMap.values.sumOf { it.product.preu * it.quantity }
+    }
+
+    fun getQuantity(product: Product): Int {
+        return cartMap[product.id]?.quantity ?: 0
+    }
+
+    fun getCartMap(): Map<String, CartItem> = cartMap.toMap()
+
+    fun clearCart() {
+        cartMap.clear()
+        notifyChanges()
+    }
+
+    // ----------------------
+    // Helpers
+    // ----------------------
+
+    private fun notifyChanges() {
+        // Para LiveData del fragment
+        _cartMapLiveData.value = cartMap.toMap()
+        _cartTotal.value = getCartTotal()
     }
 }

@@ -14,12 +14,15 @@ import com.example.cafeteria.R
 import com.example.cafeteria.viewmodels.SharedViewModel
 import com.example.cafeteria.adapters.ProductAdapter
 import com.example.cafeteria.models.getProductsByCategory
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 
 class ReposteriaFragment : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var adapter: ProductAdapter
+    private var registration: ListenerRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,20 +30,31 @@ class ReposteriaFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reposteria, container, false)
 
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel = activityViewModels<SharedViewModel>().value
+
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerReposteria)
         recycler.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ProductAdapter(emptyList(), sharedViewModel)
         recycler.adapter = adapter
-        sharedViewModel.cartItems.observe(viewLifecycleOwner) {
+        sharedViewModel.cartMapLiveData.observe(viewLifecycleOwner) {
             adapter.notifyDataSetChanged()
         }
 
-        getProductsByCategory("reposteria") { list ->
-            adapter.replaceData(list)
-        }
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        registration = FirebaseFirestore.getInstance()
+            .collection("productes")
+            .whereEqualTo("categoria", "reposteria")
+            .addSnapshotListener { snapshot, _ ->
+                adapter.replaceData(snapshot?.toObjects(Product::class.java) ?: emptyList())
+            }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        registration?.remove()
     }
 }

@@ -7,14 +7,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cafeteria.R
-import com.example.cafeteria.models.Product
+import com.example.cafeteria.models.CartItem
 import com.example.cafeteria.viewmodels.SharedViewModel
 
 class CartAdapter(
     private val sharedViewModel: SharedViewModel
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
-    private var cartMap = mapOf<Product, Int>()
+    private var cartItems = listOf<CartItem>()
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.findViewById(R.id.tvName)
@@ -32,21 +32,32 @@ class CartAdapter(
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val product = cartMap.keys.toList()[position]
-        val quantity = cartMap[product] ?: 1
+
+        val item = cartItems[position]
+        val product = item.product
+        val quantity = item.quantity
 
         holder.nameText.text = product.nom
         holder.quantityText.text = quantity.toString()
-        holder.priceText.text = "€%.2f".format(product.preu * quantity)
+        holder.priceText.text = "%.2f€".format(product.preu * quantity)
 
         holder.minusBtn.isEnabled = quantity > 1
+        holder.plusBtn.isEnabled = quantity < product.stock
 
         holder.plusBtn.setOnClickListener {
-            sharedViewModel.incrementProduct(product)
+            if (quantity < product.stock) {
+                sharedViewModel.addOne(product)
+            } else {
+                android.widget.Toast.makeText(
+                    holder.itemView.context,
+                    "Quantitat màxima. No hi ha més ${product.nom}",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         holder.minusBtn.setOnClickListener {
-            sharedViewModel.decrementProduct(product)
+            sharedViewModel.removeOne(product)
         }
 
         holder.removeBtn.setOnClickListener {
@@ -54,11 +65,10 @@ class CartAdapter(
         }
     }
 
-    override fun getItemCount(): Int = cartMap.size
+    override fun getItemCount(): Int = cartItems.size
 
-    // actualizar lista desde el fragment
-    fun submitMap(map: Map<Product, Int>) {
-        cartMap = map
+    fun submitMap(map: Map<String, CartItem>) {
+        cartItems = map.values.toList()
         notifyDataSetChanged()
     }
 }
