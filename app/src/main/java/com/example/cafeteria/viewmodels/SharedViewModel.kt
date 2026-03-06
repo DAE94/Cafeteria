@@ -1,5 +1,6 @@
 package com.example.cafeteria.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,8 @@ class SharedViewModel : ViewModel() {
             cartMap[product.id] = CartItem(product, 1)
         }
         notifyChanges()
+        Log.d("SharedViewModel", "ADD_ONE: ${product.nom} qty=${cartMap[product.id]?.quantity}")
+        Log.d("SharedViewModel", "CART STATE: ${cartMap.entries.joinToString { "${it.value.product.nom}=${it.value.quantity}" }}")
     }
 
     fun removeOne(product: Product) {
@@ -41,6 +44,8 @@ class SharedViewModel : ViewModel() {
             cartMap.remove(product.id)
         }
         notifyChanges()
+        Log.d("SharedViewModel", "REMOVE_ONE: ${product.nom} qty=${cartMap[product.id]?.quantity ?: 0}")
+        Log.d("SharedViewModel", "CART STATE: ${cartMap.entries.joinToString { "${it.value.product.nom}=${it.value.quantity}" }}")
     }
 
     fun removeProduct(product: Product) {

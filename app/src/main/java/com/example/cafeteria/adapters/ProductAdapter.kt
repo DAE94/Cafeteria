@@ -1,5 +1,6 @@
 package com.example.cafeteria.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,8 @@ class ProductAdapter(
         val qty = sharedViewModel.getQuantity(product)
         holder.quantityText.text = qty.toString()
 
+        Log.d("ProductAdapter", "Bind product: ${product.nom}, qty=$qty, pos=$position")
+
         // Habilitar/deshabilitar botones según stock
         holder.plusBtn.isEnabled = qty < product.stock
         holder.minusBtn.isEnabled = qty > 0
@@ -51,6 +54,7 @@ class ProductAdapter(
         // Incrementar cantidad
         // ===============================
         holder.plusBtn.setOnClickListener {
+            Log.d("ProductAdapter", "PLUS clicked for: ${product.nom}, currentQty=$qty")
             val currentQty = sharedViewModel.getQuantity(product)
             if (currentQty >= product.stock) {
                 Toast.makeText(
@@ -60,7 +64,8 @@ class ProductAdapter(
                 ).show()
             } else {
                 sharedViewModel.addOne(product)
-                notifyItemChanged(position) // actualizar solo esta fila
+                //notifyItemChanged(position) // actualizar solo esta fila
+                notifyDataSetChanged() // temporal, para descartar problemas de recycling
             }
         }
 

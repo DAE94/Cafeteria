@@ -2,6 +2,7 @@ package com.example.cafeteria.fragments
 
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,6 @@ import com.example.cafeteria.R
 import com.example.cafeteria.viewmodels.SharedViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.navigation.fragment.findNavController
-
 
 
 class PagamentFragment : Fragment(R.layout.fragment_pagament) {
@@ -151,18 +151,23 @@ class PagamentFragment : Fragment(R.layout.fragment_pagament) {
 
         db.runTransaction { transaction ->
 
+            // Llegir tots els 'snapshots' (equivalent a get)
+            val snapshots = mutableMapOf<String, Long>()
             for (item in cart) {
-
                 val ref = db.collection("productes").document(item.product.id)
-
                 val snapshot = transaction.get(ref)
-
                 val currentStock = snapshot.getLong("stock") ?: 0
+                snapshots[item.product.id] = currentStock
+            }
 
+            // 2 Verificar stock i actualitzar (update)
+            for (item in cart) {
+                val currentStock = snapshots[item.product.id] ?: 0
                 if (currentStock < item.quantity) {
                     throw Exception("No hi ha prou stock del producte ${item.product.nom}")
                 }
 
+                val ref = db.collection("productes").document(item.product.id)
                 transaction.update(ref, "stock", currentStock - item.quantity)
             }
 
@@ -180,6 +185,10 @@ class PagamentFragment : Fragment(R.layout.fragment_pagament) {
             btnPay.text = "Pagar"
 
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+            Log.d(
+                "PagamentFragment",
+                "Missatge error: ${e.message} , Causa: ${e.cause} , Missatge localitzat: ${e.localizedMessage}"
+            )
         }
     }
 }

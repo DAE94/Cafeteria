@@ -42,15 +42,20 @@ class BegudesFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        // instancia BBDD per observar stock en temps real
-        FirebaseFirestore.getInstance()
-            .collection("productes")
-            .whereEqualTo("categoria", "beguda")
-            .addSnapshotListener { snapshot, _ ->
-                val products = snapshot?.toObjects(Product::class.java) ?: emptyList()
-                products.forEach { sharedViewModel.updateProduct(it) }
-                adapter.replaceData(products)
-            }
+        // Carregar productes un sol cop des de firestore
+        getProductsByCategory("beguda") { products ->
+            adapter.replaceData(products)
+        }
+
+//        // instancia BBDD per observar stock en temps real
+//        FirebaseFirestore.getInstance()
+//            .collection("productes")
+//            .whereEqualTo("categoria", "beguda")
+//            .addSnapshotListener { snapshot, _ ->
+//                val products = snapshot?.toObjects(Product::class.java) ?.distinctBy { it.id } ?: emptyList()
+//                products.forEach { sharedViewModel.updateProduct(it) }
+//                adapter.replaceData(products)
+//            }
 
         return view
     }

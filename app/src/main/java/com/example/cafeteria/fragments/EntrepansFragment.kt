@@ -41,17 +41,22 @@ class EntrepansFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        // instancia BBDD per observar stock en temps real (en comptes del GET)
-        FirebaseFirestore.getInstance()
-            .collection("productes")
-            .whereEqualTo("categoria", "entrepa")
-            .addSnapshotListener { snapshot, _ ->
+        // Carregar productes un sol cop des de firestore
+        getProductsByCategory("entrepa") { products ->
+            adapter.replaceData(products)
+        }
 
-                val products = snapshot?.toObjects(Product::class.java) ?: emptyList()
-
-                products.forEach { sharedViewModel.updateProduct(it) }
-                adapter.replaceData(products)
-            }
+//        // instancia BBDD per observar stock en temps real (en comptes del GET)
+//        FirebaseFirestore.getInstance()
+//            .collection("productes")
+//            .whereEqualTo("categoria", "entrepa")
+//            .addSnapshotListener { snapshot, _ ->
+//
+//                val products = snapshot?.toObjects(Product::class.java) ?.distinctBy { it.id } ?: emptyList()
+//
+//                products.forEach { sharedViewModel.updateProduct(it) }
+//                adapter.replaceData(products)
+//            }
 
         return view
     }
