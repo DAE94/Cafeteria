@@ -17,6 +17,8 @@ class SharedViewModel : ViewModel() {
     private val _cartTotal = MutableLiveData(0.0)
     val cartTotal: LiveData<Double> = _cartTotal
 
+    private val productsMap = mutableMapOf<String, Product>()
+
     // ----------------------
     // FUNCIONS
     // ----------------------
@@ -68,6 +70,16 @@ class SharedViewModel : ViewModel() {
     // ----------------------
     // Helpers
     // ----------------------
+
+    // Actualiza o registra la versión más reciente de un Product
+    fun updateProduct(product: Product) {
+        productsMap[product.id] = product
+    }
+
+    // Devuelve la versión más reciente de un Product por su ID
+    fun getLatestProductVersion(id: String): Product? {
+        return productsMap[id]
+    }
 
     private fun notifyChanges() {
         // Para LiveData del fragment

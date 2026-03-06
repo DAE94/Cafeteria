@@ -41,20 +41,32 @@ class ReposteriaFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        registration = FirebaseFirestore.getInstance()
+        // instancia BBDD per observar stock en temps real
+        FirebaseFirestore.getInstance()
             .collection("productes")
             .whereEqualTo("categoria", "reposteria")
             .addSnapshotListener { snapshot, _ ->
-                adapter.replaceData(snapshot?.toObjects(Product::class.java) ?: emptyList())
+
+                val products = snapshot?.toObjects(Product::class.java) ?: emptyList()
+
+                products.forEach { sharedViewModel.updateProduct(it) }
+                adapter.replaceData(products)
             }
+
+        return view
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        registration?.remove()
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        registration = FirebaseFirestore.getInstance()
+//            .collection("productes")
+//            .whereEqualTo("categoria", "reposteria")
+//            .addSnapshotListener { snapshot, _ ->
+//                adapter.replaceData(snapshot?.toObjects(Product::class.java) ?: emptyList())
+//            }
+//    }
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        registration?.remove()
+//    }
 }

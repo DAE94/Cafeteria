@@ -31,7 +31,8 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = products[position]
+        val productId = products[position].id
+        val product = sharedViewModel.getLatestProductVersion(productId) ?: products[position]
 
         holder.nameText.text = product.nom
         holder.priceText.text = "€%.2f".format(product.preu)

@@ -47,9 +47,8 @@ class BegudesFragment : Fragment() {
             .collection("productes")
             .whereEqualTo("categoria", "beguda")
             .addSnapshotListener { snapshot, _ ->
-
                 val products = snapshot?.toObjects(Product::class.java) ?: emptyList()
-
+                products.forEach { sharedViewModel.updateProduct(it) }
                 adapter.replaceData(products)
             }
 

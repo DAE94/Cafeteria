@@ -49,6 +49,7 @@ class EntrepansFragment : Fragment() {
 
                 val products = snapshot?.toObjects(Product::class.java) ?: emptyList()
 
+                products.forEach { sharedViewModel.updateProduct(it) }
                 adapter.replaceData(products)
             }
 
