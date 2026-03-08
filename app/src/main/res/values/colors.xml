@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores principales de la app -->
+    <!-- Colors principals de l'app -->
     <color name="colorPrimary">#ccc1b5</color>          <!-- Marrón cálido principal -->
     <color name="colorPrimaryVariant">#906D56</color>  <!-- Variante más oscura -->
     <color name="colorSecondary">#552f08</color>       <!-- Color secundario para botones/accent -->
 
-    <!-- Texto y fondos -->
+    <!-- Text i fons -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="background">#F8F5F0</color>          <!-- Fondo general más claro -->
     <color name="bg_bottom_nav">#f0e0d0</color>
+    <color name="bg_header">#9DD7F8</color>
 
     <color name="colorButtonBackground">#552f08</color>
     <color name="colorButtonText">#FFFFFF</color>
+
+    <!-- Botons -->
+    <color name="gray">#b0adac</color>
+    <color name="red">#F44336</color>
+
 
 
 </resources>

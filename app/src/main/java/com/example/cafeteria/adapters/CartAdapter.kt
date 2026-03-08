@@ -1,10 +1,12 @@
 package com.example.cafeteria.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cafeteria.R
 import com.example.cafeteria.models.CartItem
@@ -35,29 +37,68 @@ class CartAdapter(
 
         val item = cartItems[position]
         val product = item.product
-        val quantity = item.quantity
+        val qty = item.quantity
 
         holder.nameText.text = product.nom
-        holder.quantityText.text = quantity.toString()
-        holder.priceText.text = "%.2f€".format(product.preu * quantity)
+        holder.quantityText.text = qty.toString()
+        holder.priceText.text = "%.2f€".format(product.preu * qty)
 
-        holder.minusBtn.isEnabled = quantity > 1
-        holder.plusBtn.isEnabled = quantity < product.stock
 
+        // Habilitar/deshabilitar botons segons stock
+        holder.plusBtn.isEnabled = qty < product.stock
+        holder.plusBtn.alpha = if (holder.plusBtn.isEnabled) 1f else 0.5f
+        holder.minusBtn.isEnabled = qty > 1
+        holder.minusBtn.alpha = if (holder.minusBtn.isEnabled) 1f else 0.5f
+
+
+        // ===============================
+        // Incrementar cantidad
+        // ===============================
         holder.plusBtn.setOnClickListener {
-            if (quantity < product.stock) {
-                sharedViewModel.addOne(product)
-            } else {
-                android.widget.Toast.makeText(
+            if (qty >= product.stock-1) {
+                Log.d("ProductAdapter", "Cantidad máxima alcanzada, mostrando Toast")
+                Toast.makeText(
                     holder.itemView.context,
-                    "Quantitat màxima. No hi ha més ${product.nom}",
-                    android.widget.Toast.LENGTH_SHORT
+                    "Quantitat màxima de ${product.nom}",
+                    Toast.LENGTH_SHORT
                 ).show()
+                sharedViewModel.addOne(product)
+            } else if (qty > product.stock) {
+                //no hauria d'entrar mai
+                Log.d("ProductAdapter","està afegint més quantitat del stock. Botó no deshabilitat?.")
+                Toast.makeText(
+                    holder.itemView.context,
+                    "No hi ha prou ${product.nom}, aquest botó hauria d'estar deshabilitat",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                sharedViewModel.addOne(product)
+                notifyItemChanged(position) // actualitzar només aquesta fila
             }
         }
 
+//        holder.plusBtn.setOnClickListener {
+//            if (qty < product.stock) {
+//                sharedViewModel.addOne(product)
+//            } else {
+//                android.widget.Toast.makeText(
+//                    holder.itemView.context,
+//                    "Quantitat màxima. No hi ha més ${product.nom}",
+//                    android.widget.Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+
         holder.minusBtn.setOnClickListener {
-            sharedViewModel.removeOne(product)
+            if (qty > 1) {
+                sharedViewModel.removeOne(product)
+            } else {
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Feu servir el botó X per eliminar el producte",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         holder.removeBtn.setOnClickListener {

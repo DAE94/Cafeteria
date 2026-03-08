@@ -21,5 +21,6 @@
     <string name="numero_targeta">Número targeta</string>
     <string name="titular_targeta">Titular targeta</string>
     <string name="cancela_pagament">cancel·la pagament</string>
+    <string name="eliminar_compte">Eliminar compte</string>
 
 </resources>

@@ -39,38 +39,49 @@ class ProductAdapter(
         holder.priceText.text = "€%.2f".format(product.preu)
 
         // ===============================
-        // Cantidad actual desde SharedViewModel
+        // Quantitat actual des del SharedViewModel
         // ===============================
         val qty = sharedViewModel.getQuantity(product)
         holder.quantityText.text = qty.toString()
 
         Log.d("ProductAdapter", "Bind product: ${product.nom}, qty=$qty, pos=$position")
 
-        // Habilitar/deshabilitar botones según stock
+        // Habilitar/deshabilitar botons segons stock
         holder.plusBtn.isEnabled = qty < product.stock
+        holder.plusBtn.alpha = if (holder.plusBtn.isEnabled) 1f else 0.5f
         holder.minusBtn.isEnabled = qty > 0
+        holder.minusBtn.alpha = if (holder.minusBtn.isEnabled) 1f else 0.5f
 
         // ===============================
         // Incrementar cantidad
         // ===============================
         holder.plusBtn.setOnClickListener {
-            Log.d("ProductAdapter", "PLUS clicked for: ${product.nom}, currentQty=$qty")
             val currentQty = sharedViewModel.getQuantity(product)
-            if (currentQty >= product.stock) {
+            Log.d("ProductAdapter", "PLUS clicked for: ${product.nom}, currentQty=$currentQty, stock=${product.stock}")
+            if (currentQty >= product.stock-1) {
+                Log.d("ProductAdapter", "Cantidad máxima alcanzada, mostrando Toast")
                 Toast.makeText(
                     holder.itemView.context,
-                    "Quantitat màxima. No hi ha més ${product.nom}",
+                    "Quantitat màxima de ${product.nom}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                sharedViewModel.addOne(product)
+            } else if (currentQty > product.stock) {
+                //no hauria d'entrar mai
+                Log.d("ProductAdapter","està afegint més quantitat del stock. Botó no deshabilitat?.")
+                Toast.makeText(
+                    holder.itemView.context,
+                    "No hi ha prou ${product.nom}, aquest botó hauria d'estar deshabilitat",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 sharedViewModel.addOne(product)
-                //notifyItemChanged(position) // actualizar solo esta fila
-                notifyDataSetChanged() // temporal, para descartar problemas de recycling
+                notifyItemChanged(position) // actualitzar només aquesta fila
             }
         }
 
         // ===============================
-        // Decrementar cantidad
+        // Decrementar quantitat
         // ===============================
         holder.minusBtn.setOnClickListener {
             val currentQty = sharedViewModel.getQuantity(product)
